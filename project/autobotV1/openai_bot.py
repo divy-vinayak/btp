@@ -6,7 +6,7 @@ def get_result(messages: list[dict]):
     result = openai.ChatCompletion.create(
         messages=messages, 
         model="gpt-3.5-turbo", 
-        temperature=0
+        temperature=0.8
     )
 
     return result
