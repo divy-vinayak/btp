@@ -27,10 +27,10 @@
           <div class="msg-bubble">
             <div class="msg-info">
               <div class="msg-info-name">AutoBotV1</div>
-              <div class="msg-info-time" id="welcome-msg">12:45</div>
+              <div class="msg-info-time" id="welcome-msg"></div>
             </div>
 
-            <div class="msg-text">Hi, welcome to AutoBot! Go ahead and send me a message. 😄</div>
+            <div class="msg-text">Hi, I am AutoBot! Hopefully I can help you with your dementia related queries. 😄</div>
           </div>
         </div>
 
@@ -38,12 +38,26 @@
       </main>
 
       <form class="msger-inputarea">
-        <input type="text" class="msger-input" placeholder="Enter your message..." />
+        <input type="text" class="msger-input" placeholder="Enter your message here" />
         <button type="submit" class="msger-send-btn">Send</button>
       </form>
     </section>
 
     <script async defer>
+        function updateTime() {
+          var now = new Date();
+          var hours = now.getHours().toString().padStart(2, '0');
+          var minutes = now.getMinutes().toString().padStart(2, '0');
+          var timeString = hours + ':' + minutes;
+
+          var timeElement = document.getElementById('welcome-msg');
+          if (timeElement) {
+              timeElement.innerHTML = timeString;
+          }
+        }
+
+        // Call updateTime when the DOM is fully loaded
+        window.onload = updateTime;
         const msgerForm = get(".msger-inputarea");
         const msgerInput = get(".msger-input");
         const msgerChat = get(".msger-chat");
@@ -61,11 +75,19 @@
           if (!msgText) return;
         
           appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+          addLoader();
           msgerInput.value = "";
         
           botResponse({'msg':msgText});
         });
         
+        function addLoader(){
+          msgerInput.placeholder = "Loading...";
+        }
+        function removeLoader(){
+          msgerInput.placeholder = "Enter you message here";
+        }
+
         function appendMessage(name, img, side, text) {
           //   Simple solution for small apps
           const msgHTML = `
@@ -109,6 +131,7 @@
         
           setTimeout(() => {
             appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
+            removeLoader();
           }, delay);
         }
         

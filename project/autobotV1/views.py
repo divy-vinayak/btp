@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from . import openai_bot
+from . import openai_bot, privateGPT_bot
 
 # Create your views here.
 def index(request):
@@ -19,7 +19,8 @@ def bot_response(request):
         
         # call bot, create output
         messages = [{"role": "user", "content": input_text['msg']}]
-        result = {'msg': openai_bot.get_result(messages)['choices'][0]["message"]["content"]}
+        # result = {'msg': openai_bot.get_result(messages)['choices'][0]["message"]["content"]}
+        result = {'msg': privateGPT_bot.get_result(messages)}
         # print(result)
         response_data = {'result': result}
         return JsonResponse(response_data)
