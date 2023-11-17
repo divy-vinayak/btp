@@ -12,9 +12,13 @@ def get_doc_id():
     else:
         return None
 
-doc_id = get_doc_id()
-
+try:
+    doc_id = get_doc_id()
+except:
+    doc_id = None
 def get_result(messages: list[dict]):
+    if not doc_id:
+        return "BOT IS INACTIVE AT THE MOMENT"
     print(f"DOC_ID: {doc_id}")
     data = {
         "context_filter": {
